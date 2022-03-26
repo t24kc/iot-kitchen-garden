@@ -12,8 +12,10 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../'))
+import toml
 
+project_dir = os.path.abspath('../../')
+sys.path.insert(0, project_dir)
 
 # -- Project information -----------------------------------------------------
 
@@ -22,8 +24,14 @@ copyright = '2022, Takashi Suzuki'
 author = 'Takashi Suzuki'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
+def get_version(project_dir: str) -> str:
+    pyproject_path = f"{project_dir}/pyproject.toml"
+    with open(pyproject_path) as f:
+        pyproject_toml = toml.load(f)
+        return pyproject_toml["tool"]["poetry"]["version"]
 
+
+release = get_version(project_dir)
 
 # -- General configuration ---------------------------------------------------
 
